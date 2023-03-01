@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async"
 interface PagePropsType {
     children: ReactNode
     title: string
+    style: object
 }
 
 type Ref = HTMLDivElement

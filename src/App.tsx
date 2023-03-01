@@ -1,11 +1,15 @@
 import Routes from "routes"
 
+import { BetslipProvider } from "contexts/BetslipContext"
+
 import "App.css"
 
 function App() {
   return (
     <div className="App">
-      <Routes />
+      <BetslipProvider>
+        <Routes />
+      </BetslipProvider>
     </div>
   )
 }
