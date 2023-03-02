@@ -3,8 +3,6 @@ import MockAdapter from "axios-mock-adapter"
 
 import MOCK_EVENTS from "../mocks/events.json"
 
-console.log(MOCK_EVENTS)
-
 const mock = new MockAdapter(axios)
 
 mock.onGet("/events").reply(200, MOCK_EVENTS)

@@ -4,6 +4,11 @@ export interface IBetslipContextState {
     coupon: CouponItemType[]
     error: string | unknown
     loading: boolean
+    selectedEvents: SelectedEventsType
+}
+
+export type SelectedEventsType = {
+    [key: string]: { oddName: string | undefined, outCome: string | undefined }
 }
 
 export type CouponItemType = null | {
