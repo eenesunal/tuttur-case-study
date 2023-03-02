@@ -16,7 +16,7 @@ const EventItem: FC<EventItemPropsType> = ({ eventItem }) => {
     const [selectedBetName, setSelectedBetName] = useState<string>("")
 
     const addToBetslip: AddToBetslipType = (oddName, outCome) => {
-        addEventToBetslip({ eventName, oddName, outCome })
+        addEventToBetslip({ eventName, oddName, outCome, mbc })
     }
     
     useEffect(() => {

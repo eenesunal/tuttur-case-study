@@ -2,8 +2,7 @@ import { ReactNode } from "react"
 
 export interface IBetslipContextState {
     coupon: CouponItemType[]
-    error: string | unknown
-    loading: boolean
+    isBetslipPlayable: boolean
     selectedEvents: SelectedEventsType
 }
 
@@ -15,6 +14,7 @@ export type CouponItemType = null | {
     eventName: string
     oddName: string
     outCome: string
+    mbc: number
 }
 
 export interface IBetslipContextAction<T> {
@@ -23,7 +23,8 @@ export interface IBetslipContextAction<T> {
 
 export interface AddEventToBetslipAction extends IBetslipContextAction<"ADD_EVENT_TO_BETSLIP"> {
     payload: {
-        couponItem: CouponItemType
+        couponItem: CouponItemType,
+        isPlayable: boolean
     }
 }
 
@@ -45,7 +46,6 @@ export interface RemoveItemFromBetslipType extends IBetslipContextAction<"REMOVE
         eventName: string
     }
 }
-export type PlayBetslipSuccessAction = IBetslipContextAction<"PLAY_BETSLIP_SUCCESS">
 
 export type CleanBetslipFailedAction = IBetslipContextAction<"CLEAN_BETSLIP">
 
@@ -54,7 +54,6 @@ export type CleanBetslipFailedPayloadType = null
 export interface BetslipContextType extends IBetslipContextState {
     addEventToBetslip: AddEventToBetslipType
     cleanBetslip: CleanBetslipType
-    playBetslip: CleanBetslipType
     removeEventFromBetslip: RemoveEventFromBetslipType
 }
 
@@ -62,9 +61,8 @@ export type BetslipProviderType = {
     children: ReactNode
 }
 
-export type ReducerType = (state: IBetslipContextState, action: AddEventToBetslipAction | AddEventToBetslipFailedAction | CleanBetslipFailedAction | PlayBetslipFetchAction | PlayBetslipFailedAction | PlayBetslipSuccessAction | RemoveItemFromBetslipType) => IBetslipContextState
+export type ReducerType = (state: IBetslipContextState, action: AddEventToBetslipAction | AddEventToBetslipFailedAction | CleanBetslipFailedAction | PlayBetslipFetchAction | PlayBetslipFailedAction | RemoveItemFromBetslipType) => IBetslipContextState
 
 export type AddEventToBetslipType = (couponItem: CouponItemType) => void
 export type CleanBetslipType = () => void
-export type PlayBetslipType = () => void
 export type RemoveEventFromBetslipType = (eventName: string) => void

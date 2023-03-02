@@ -1,6 +1,8 @@
 import axios from "axios"
 import MockAdapter from "axios-mock-adapter"
 
+import { CouponItemType } from "contexts/types"
+
 import MOCK_EVENTS from "../mocks/events.json"
 
 const mock = new MockAdapter(axios)
@@ -16,4 +18,4 @@ mock.onPost("/betslips/play").reply(function (config) {
 })
 
 export const fetchEvents = () => axios.get("/events")
-export const playBetslip = () => axios.post("/betslips/play")
+export const playBetslip = (coupon: CouponItemType[]) => axios.post("/betslips/play", JSON.stringify(coupon))

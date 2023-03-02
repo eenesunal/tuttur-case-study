@@ -1,15 +1,13 @@
 import { createContext, FC, useReducer } from "react"
 import { find, map } from "lodash"
 
-import { playBetslip as playBetslipCall } from "api"
-
 import {
     AddEventToBetslipType,
     BetslipContextType,
     BetslipProviderType,
     CleanBetslipType,
+    CouponItemType,
     IBetslipContextState,
-    PlayBetslipType,
     ReducerType,
     RemoveEventFromBetslipType,
     SelectedEventsType
@@ -22,11 +20,20 @@ const removeItemFromObject = (object: object, field: string) => {
     return newObject
 }
 
+const getIsPlayable = (coupon: CouponItemType[], newCouponItem: CouponItemType) => {
+    const newCoupon: CouponItemType[] = find(coupon, ["eventName", newCouponItem?.eventName]) ?
+        map(coupon, (couponItem) => couponItem?.eventName === newCouponItem?.eventName ? newCouponItem : couponItem) :
+        [...coupon, newCouponItem]
+
+    const highestMBC =  newCoupon.length > 0 ? Math.max(...map(newCoupon, c => c?.mbc ? c?.mbc : 0)) : newCouponItem?.mbc
+
+    return highestMBC ? newCoupon.length >= highestMBC : false
+}
+
 const initialState: IBetslipContextState = {
     coupon: [],
-    selectedEvents: {},
-    loading: false,
-    error: null
+    isBetslipPlayable: false,
+    selectedEvents: {}
 }
 
 const reducer: ReducerType = (state, action) => {
@@ -37,7 +44,8 @@ const reducer: ReducerType = (state, action) => {
                 coupon: find(state.coupon, ["eventName", action.payload.couponItem?.eventName]) ?
                     map(state.coupon, (couponItem) => couponItem?.eventName === action.payload.couponItem?.eventName ? action.payload.couponItem : couponItem) :
                     [...state.coupon, action.payload.couponItem],
-                selectedEvents: { ...state.selectedEvents, [action.payload.couponItem?.eventName || "event"]: { oddName: action.payload.couponItem?.oddName, outCome: action.payload.couponItem?.eventName } }
+                selectedEvents: { ...state.selectedEvents, [action.payload.couponItem?.eventName || "event"]: { oddName: action.payload.couponItem?.oddName, outCome: action.payload.couponItem?.eventName } },
+                isBetslipPlayable: action.payload.isPlayable
             }
         case "ADD_EVENT_TO_BETSLIP_FAILED":
             return {
@@ -54,22 +62,6 @@ const reducer: ReducerType = (state, action) => {
                 coupon: state.coupon.filter(couponItem => couponItem?.eventName !== action.payload.eventName),
                 selectedEvents: removeItemFromObject(state.selectedEvents, action.payload.eventName)
             }
-        case "PLAY_BETSLIP_FETCH":
-            return {
-                ...state,
-                loading: true,
-                error: null
-            }
-        case "PLAY_BETSLIP_FAILED":
-            return {
-                ...state,
-                loading: false,
-                error: action.payload.error
-            }
-        case "PLAY_BETSLIP_SUCCESS":
-            return {
-                ...initialState
-            }
         default:
             return state
     }
@@ -79,7 +71,6 @@ const BetslipContext = createContext<BetslipContextType>({
     ...initialState,
     addEventToBetslip: () => { },
     cleanBetslip: () => { },
-    playBetslip: () => { },
     removeEventFromBetslip: () => { },
 })
 
@@ -88,10 +79,11 @@ const BetslipProvider: FC<BetslipProviderType> = ({ children }) => {
 
     const addEventToBetslip: AddEventToBetslipType = (couponItem) => {
         try {
+            const isPlayable = getIsPlayable(state.coupon, couponItem)
 
             dispatch({
                 type: "ADD_EVENT_TO_BETSLIP",
-                payload: { couponItem }
+                payload: { couponItem, isPlayable }
             })
         } catch (error: unknown) {
             dispatch({
@@ -115,33 +107,12 @@ const BetslipProvider: FC<BetslipProviderType> = ({ children }) => {
             }
         })
     }
-
-    const playBetslip: PlayBetslipType = async () => {
-        try {
-            dispatch({
-                type: "PLAY_BETSLIP_FETCH"
-            })
-
-            await playBetslipCall()
-
-            dispatch({
-                type: "PLAY_BETSLIP_SUCCESS"
-            })
-        } catch (error) {
-            dispatch({
-                type: "PLAY_BETSLIP_FAILED",
-                payload: { error }
-            })
-        }
-    }
-
     return (
         <BetslipContext.Provider
             value={{
                 ...state,
                 addEventToBetslip,
                 cleanBetslip,
-                playBetslip,
                 removeEventFromBetslip
             }}
         >
