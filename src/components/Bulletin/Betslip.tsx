@@ -45,7 +45,7 @@ const Betslip: FC = () => {
             <div>
                 {
                     coupon.length > 0 ?
-                        coupon.map((couponItem) => (
+                        map(coupon, (couponItem) => (
                             <div key={couponItem?.eventName} style={{ marginBottom: 5, padding: 5, display: "flex" }}>
                                 <span style={{ marginRight: 5 }}>{couponItem?.mbc}</span>
                                 <span>{couponItem?.eventName}</span>

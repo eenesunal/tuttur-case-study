@@ -1,13 +1,12 @@
 import { useEffect, useState, FC } from "react"
-
-import { fetchEvents } from "api"
+import { map } from "lodash"
 
 import EventItem from "./EventItem"
 import EventsHeader from "./EventsHeader"
 
-import {
-    InitialStateType
-} from "./types"
+import { fetchEvents } from "api"
+
+import { InitialStateType } from "./types"
 
 const INITIAL_STATE: InitialStateType = {
     data: [],
@@ -37,7 +36,7 @@ const Events: FC = () => {
                 <EventsHeader events={data} />
             }
             {
-                data.map(event => <EventItem key={event.eventName} eventItem={event} />)
+                map(data, event => <EventItem key={event.eventName} eventItem={event} />)
             }
         </div>
     )

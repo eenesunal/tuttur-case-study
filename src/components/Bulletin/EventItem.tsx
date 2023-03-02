@@ -1,6 +1,8 @@
 import useBetslip from "hooks/useBetslip"
 import { FC, useEffect, useState } from "react"
 
+import { map } from "lodash"
+
 import { EventType } from "./types"
 
 type EventItemPropsType = {
@@ -29,7 +31,7 @@ const EventItem: FC<EventItemPropsType> = ({ eventItem }) => {
             <span style={{ flex: "0 0 25%" }}>{eventName}</span>
             <div style={{ display: "flex", flexDirection: "row", alignItems: "center", flex: "1", justifyContent: "space-around", width: 200 }}>
                 {
-                    Object.entries(matchResultOdds).map(([key, { name, outCome }]) => {
+                    map(Object.entries(matchResultOdds), ([key, { name, outCome }]) => {
                         return (
                             <button 
                                 key={key}

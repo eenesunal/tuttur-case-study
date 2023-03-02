@@ -1,5 +1,5 @@
 import { createContext, FC, useReducer } from "react"
-import { find, map } from "lodash"
+import { find, filter, map } from "lodash"
 
 import {
     AddEventToBetslipType,
@@ -59,7 +59,7 @@ const reducer: ReducerType = (state, action) => {
         case "REMOVE_ITEM_FROM_BETSLIP":
             return {
                 ...initialState,
-                coupon: state.coupon.filter(couponItem => couponItem?.eventName !== action.payload.eventName),
+                coupon: filter(state.coupon, couponItem => couponItem?.eventName !== action.payload.eventName),
                 selectedEvents: removeItemFromObject(state.selectedEvents, action.payload.eventName)
             }
         default:
