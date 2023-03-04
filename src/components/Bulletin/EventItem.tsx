@@ -1,27 +1,34 @@
 import useBetslip from "hooks/useBetslip"
 import { FC, useEffect, useState } from "react"
-
-import Text from "components/Text"
-import Button from "components/Button"
-
 import { map } from "lodash"
-import { EventType } from "./types"
+
 import Box from "components/Box"
+import Button from "components/Button"
+import Text from "components/Text"
+
+import { CouponItemType } from "contexts/types"
+import { EventType } from "./types"
 
 type EventItemPropsType = {
     eventItem: EventType
 }
 
-type AddToBetslipType = (oddName: string, outCome: string) => void
+type AddToBetslipType = (oddName: string, outCome: string, isAlreadySelected: boolean) => void
 
 const EventItem: FC<EventItemPropsType> = ({ eventItem }) => {
     const { eventName, matchResultOdds, mbc } = eventItem
-    const { addEventToBetslip, selectedEvents } = useBetslip()
+    const { addEventToBetslip, removeEventFromBetslip, selectedEvents } = useBetslip()
 
     const [selectedBetName, setSelectedBetName] = useState<string>("")
 
-    const addToBetslip: AddToBetslipType = (oddName, outCome) => {
-        addEventToBetslip({ eventName, oddName, outCome, mbc })
+    const addToBetslip: AddToBetslipType = (oddName, outCome, isAlreadySelected) => {
+        const createdCouponItem: CouponItemType = { eventName, oddName, outCome, mbc }
+
+        if(isAlreadySelected) {
+            removeEventFromBetslip(createdCouponItem)
+        } else {
+            addEventToBetslip(createdCouponItem)
+        }
     }
     
     useEffect(() => {
@@ -39,7 +46,7 @@ const EventItem: FC<EventItemPropsType> = ({ eventItem }) => {
                             <Button 
                                 variant={selectedBetName === name ? "oddSelected" : "odd"}
                                 key={key}
-                                onClick={() => addToBetslip(name, outCome)}
+                                onClick={() => addToBetslip(name, outCome, selectedBetName === name)}
                                 css={{ width: 100 }}
                                 size="mini"
                             >
