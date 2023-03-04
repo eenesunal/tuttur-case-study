@@ -13,20 +13,27 @@ import {
     SelectedEventsType
 } from "./types"
 
-const removeItemFromObject = (object: object, field: string) => {
+const removeItemFromObject = (object: object, field: string | undefined) => {
     const newObject: SelectedEventsType = { ...object }
-    delete newObject[field]
+
+    if (field) {
+        delete newObject[field]
+    }
 
     return newObject
 }
 
-const getIsPlayable = (coupon: CouponItemType[], newCouponItem: CouponItemType) => {
-    const newCoupon: CouponItemType[] = find(coupon, ["eventName", newCouponItem?.eventName]) ?
+const getIsPlayable = (coupon: CouponItemType[], newCouponItem: CouponItemType, isRemove: boolean) => {
+    let newCoupon: CouponItemType[]
+    if(isRemove) {
+        newCoupon = filter(coupon, (couponItem) => couponItem?.eventName !== newCouponItem?.eventName)
+    } else {
+        newCoupon = find(coupon, ["eventName", newCouponItem?.eventName]) ?
         map(coupon, (couponItem) => couponItem?.eventName === newCouponItem?.eventName ? newCouponItem : couponItem) :
         [...coupon, newCouponItem]
-
-    const highestMBC =  newCoupon.length > 0 ? Math.max(...map(newCoupon, c => c?.mbc ? c?.mbc : 0)) : newCouponItem?.mbc
-
+    }
+    
+    const highestMBC = newCoupon.length > 0 ? Math.max(...map(newCoupon, c => c?.mbc ? c?.mbc : 0)) : newCouponItem?.mbc
     return highestMBC ? newCoupon.length >= highestMBC : false
 }
 
@@ -60,7 +67,8 @@ const reducer: ReducerType = (state, action) => {
             return {
                 ...initialState,
                 coupon: filter(state.coupon, couponItem => couponItem?.eventName !== action.payload.eventName),
-                selectedEvents: removeItemFromObject(state.selectedEvents, action.payload.eventName)
+                selectedEvents: removeItemFromObject(state.selectedEvents, action.payload.eventName),
+                isBetslipPlayable: action.payload.isPlayable
             }
         default:
             return state
@@ -79,7 +87,7 @@ const BetslipProvider: FC<BetslipProviderType> = ({ children }) => {
 
     const addEventToBetslip: AddEventToBetslipType = (couponItem) => {
         try {
-            const isPlayable = getIsPlayable(state.coupon, couponItem)
+            const isPlayable = getIsPlayable(state.coupon, couponItem, false)
 
             dispatch({
                 type: "ADD_EVENT_TO_BETSLIP",
@@ -99,11 +107,14 @@ const BetslipProvider: FC<BetslipProviderType> = ({ children }) => {
         })
     }
 
-    const removeEventFromBetslip: RemoveEventFromBetslipType = (eventName) => {
+    const removeEventFromBetslip: RemoveEventFromBetslipType = (couponItem) => {
+        const isPlayable = getIsPlayable(state.coupon, couponItem, true)
+
         dispatch({
             type: "REMOVE_ITEM_FROM_BETSLIP",
             payload: {
-                eventName
+                eventName: couponItem?.eventName,
+                isPlayable
             }
         })
     }

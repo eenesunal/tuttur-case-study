@@ -5,12 +5,13 @@ import { HelmetProvider } from "react-helmet-async"
 
 import App from "./App"
 
-import "./index.css"
+import { globalStyles } from "styles/stitches.config"
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 )
 
+globalStyles()
 root.render(
   <React.StrictMode>
     <HelmetProvider>

@@ -1,12 +1,15 @@
 import { FC } from "react"
 import { Outlet } from "react-router-dom"
 
+import Text from "components/Text"
+import Box from "components/Box"
+
 const BulletinLayout: FC = () => {
     return (
-        <div style={{ display: "flex", flexDirection: "column", width: "100vw", padding: 20 }}>
-            <h2>Bulletin</h2>
+        <Box css={{ display: "flex", fd: "column", width: "100vw", p: 20 }}>
+            <Text variant="title1">Bulletin</Text>
             <Outlet />
-        </div>
+        </Box>
     )
 }
 

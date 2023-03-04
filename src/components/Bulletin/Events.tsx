@@ -3,10 +3,12 @@ import { map } from "lodash"
 
 import EventItem from "./EventItem"
 import EventsHeader from "./EventsHeader"
+import Text from "components/Text"
 
 import { fetchEvents } from "api"
 
 import { InitialStateType } from "./types"
+import Box from "components/Box"
 
 const INITIAL_STATE: InitialStateType = {
     data: [],
@@ -28,17 +30,18 @@ const Events: FC = () => {
             })
     }, [])
 
-    if(loading) return <p>Loading . . .</p>
-    if(error) return <p>Error . . .</p>
+    if(loading) return <Text variant="body">Loading . . .</Text>
+    if(error) return <Text variant="body" css={{ color: "$red600" }}>{error}</Text>
     return (
-        <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
+        <Box css={{ display: "flex", flex: 1, fd: "column", p: 15 }}>
+            <Text variant="title2">Today's Events</Text>
             {
                 <EventsHeader events={data} />
             }
             {
                 map(data, event => <EventItem key={event.eventName} eventItem={event} />)
             }
-        </div>
+        </Box>
     )
 }
 

@@ -1,11 +1,14 @@
 import { ChangeEvent, FC, useMemo, useState } from "react"
 import { map, reduce } from "lodash"
 
-import useBetslip from "hooks/useBetslip"
+import Text from "components/Text"
+import Button from "components/Button"
 
+import useBetslip from "hooks/useBetslip"
 import { playBetslip } from "api"
 
 import { CouponItemType } from "contexts/types"
+import Box from "components/Box"
 
 const calculateTotalOutCome = (coupon: CouponItemType[]) => reduce(map(coupon, (c) => c?.outCome ? Number(c?.outCome) : 0), ((prev, next) => prev + next), 0)
 const calculatePossibleWinAmount = (coupon: CouponItemType[], multiplier: number) => multiplier * calculateTotalOutCome(coupon)
@@ -40,26 +43,28 @@ const Betslip: FC = () => {
     }
 
     return (
-        <div style={{ width: "30%", height: "90vh", borderLeft: "1px solid #cdcdcd" }}>
-            <h4>Betslip</h4>
-            <div>
+        <Box css={{ width: "30%", height: "90vh", borderLeft: "1px solid #cdcdcd", p: 15 }}>
+            <Text variant="title2">Betslip</Text>
+            <Box>
                 {
                     coupon.length > 0 ?
                         map(coupon, (couponItem) => (
-                            <div key={couponItem?.eventName} style={{ marginBottom: 5, padding: 5, display: "flex" }}>
-                                <span style={{ marginRight: 5 }}>{couponItem?.mbc}</span>
-                                <span>{couponItem?.eventName}</span>
-                                <span>{couponItem?.oddName}</span>
-                                <span>{couponItem?.outCome}</span>
-                                <button style={{ marginLeft: "auto" }} onClick={() => removeEventFromBetslip(couponItem?.eventName || "")}>X</button>
-                            </div>
+                            <Box key={couponItem?.eventName} css={{ mb: 5, p: 5, display: "flex" }}>
+                                <Text css={{ text: "sm", mr: 5 }}>{couponItem?.mbc}</Text>
+                                <Text css={{ text: "sm" }}>{couponItem?.eventName}</Text>
+                                <Text css={{ text: "sm" }}>{couponItem?.oddName}</Text>
+                                <Text css={{ text: "sm" }}>{couponItem?.outCome}</Text>
+                                <Button variant="remove" size="mini" css={{ ml: "auto" }} onClick={() => removeEventFromBetslip(couponItem)}>X</Button>
+                            </Box>
                         )) :
-                        <span>Add items to coupon</span>
+                        <Text>Add items to coupon</Text>
                 }
-            </div>
-            <div style={{ height: 1, borderBottom: "1px solid #cdcdcd", marginTop: 10, marginBottom: 10 }} />
-            <div style={{ display: "flex", flexDirection: "column" }}>
-                <label style={{ marginRight: 5 }}>Multiplier: </label>
+            </Box>
+
+            <Box css={{ height: 1, borderBottom: "1px solid #cdcdcd", my: 10 }} />
+
+            <Box css={{ display: "flex", fd: "column" }}>
+                <Text css={{ mr: 5 }}>Multiplier: </Text>
                 <select
                     onChange={onMultiplierChange}
                     value={multiplier}
@@ -69,32 +74,36 @@ const Betslip: FC = () => {
                     <option value={15}>15</option>
                     <option value={20}>20</option>
                 </select>
-                <label style={{ paddingTop: 5 }}>Total Outcome: </label>
-                <span>${totalOutCome.toFixed(2)}</span>
-                <label style={{ paddingTop: 5 }}>Possible Win Amount: </label>
-                <span>${possibleWinAmount.toFixed(2)}</span>
-            </div>
-            <div style={{ height: 1, borderBottom: "1px solid #cdcdcd", marginTop: 10, marginBottom: 10 }} />
-            <div>
-                <button
+                <Text weight="bold" css={{ pt: 5 }}>Total Outcome: </Text>
+                <Text>${totalOutCome.toFixed(2)}</Text>
+                <Text weight="bold" css={{ pt: 5 }}>Possible Win Amount: </Text>
+                <Text>${possibleWinAmount.toFixed(2)}</Text>
+            </Box>
+
+            <Box css={{ height: 1, borderBottom: "1px solid #cdcdcd", my: 10 }} />
+
+            <Box>
+                <Button
+                    variant="remove"
                     disabled={loading}
                     onClick={cleanBetslip}
                 >
                     CLEAN
-                </button>
-                <button
+                </Button>
+                <Button
+                    variant="success"
                     disabled={loading || !isBetslipPlayable}
                     onClick={onPlayClick}
                 >
                     PLAY NOW
-                </button>
-            </div>
+                </Button>
+            </Box>
             {
                 error ?
-                    <p>An error occured while playing coupon.</p> :
+                    <Text css={{ color: "$red600" }}>An error occured while playing coupon.</Text> :
                     <></>
             }
-        </div>
+        </Box>
     )
 }
 

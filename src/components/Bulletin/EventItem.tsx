@@ -1,9 +1,12 @@
 import useBetslip from "hooks/useBetslip"
 import { FC, useEffect, useState } from "react"
 
-import { map } from "lodash"
+import Text from "components/Text"
+import Button from "components/Button"
 
+import { map } from "lodash"
 import { EventType } from "./types"
+import Box from "components/Box"
 
 type EventItemPropsType = {
     eventItem: EventType
@@ -26,28 +29,27 @@ const EventItem: FC<EventItemPropsType> = ({ eventItem }) => {
     }, [selectedEvents, eventItem])
     
     return (
-        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "100%", paddingBottom: "10px" }}>
-            <span style={{ flex: "0 0 10%", maxWidth: 100, textAlign: "center" }}>{mbc}</span>
-            <span style={{ flex: "0 0 25%" }}>{eventName}</span>
-            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", flex: "1", justifyContent: "space-around", width: 200 }}>
+        <Box css={{ display: "flex", fd: "row", ai: "center", width: "100%", pb: "10px" }}>
+            <Text css={{ fg: 0, fs: 0, fb: "10%", maxWidth: 100, ta: "center" }}>{mbc}</Text>
+            <Text css={{ fg: 0, fs: 0, fb: "25%", }}>{eventName}</Text>
+            <Box css={{ display: "flex", fd: "row", ai: "center", flex: "1", jc: "space-around", width: 200 }}>
                 {
                     map(Object.entries(matchResultOdds), ([key, { name, outCome }]) => {
                         return (
-                            <button 
+                            <Button 
+                                variant={selectedBetName === name ? "oddSelected" : "odd"}
                                 key={key}
                                 onClick={() => addToBetslip(name, outCome)}
-                                style={{ 
-                                    width: 100,
-                                    backgroundColor: selectedBetName === name ? "#cfaeba" : ""
-                                }}
+                                css={{ width: 100 }}
+                                size="mini"
                             >
                                 {outCome}
-                            </button>
+                            </Button>
                         )
                     })
                 }
-            </div>
-        </div>
+            </Box>
+        </Box>
     )
 }
 
