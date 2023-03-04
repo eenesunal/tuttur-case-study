@@ -43,7 +43,8 @@ export interface PlayBetslipFailedAction extends IBetslipContextAction<"PLAY_BET
 }
 export interface RemoveItemFromBetslipType extends IBetslipContextAction<"REMOVE_ITEM_FROM_BETSLIP"> {
     payload: {
-        eventName: string
+        eventName: string | undefined,
+        isPlayable: boolean
     }
 }
 
@@ -65,4 +66,4 @@ export type ReducerType = (state: IBetslipContextState, action: AddEventToBetsli
 
 export type AddEventToBetslipType = (couponItem: CouponItemType) => void
 export type CleanBetslipType = () => void
-export type RemoveEventFromBetslipType = (eventName: string) => void
+export type RemoveEventFromBetslipType = (couponItem: CouponItemType) => void

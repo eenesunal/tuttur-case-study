@@ -54,7 +54,7 @@ const Betslip: FC = () => {
                                 <Text css={{ text: "sm" }}>{couponItem?.eventName}</Text>
                                 <Text css={{ text: "sm" }}>{couponItem?.oddName}</Text>
                                 <Text css={{ text: "sm" }}>{couponItem?.outCome}</Text>
-                                <Button variant="remove" size="mini" css={{ ml: "auto" }} onClick={() => removeEventFromBetslip(couponItem?.eventName || "")}>X</Button>
+                                <Button variant="remove" size="mini" css={{ ml: "auto" }} onClick={() => removeEventFromBetslip(couponItem)}>X</Button>
                             </Box>
                         )) :
                         <Text>Add items to coupon</Text>
