@@ -8,9 +8,9 @@ const Button = styled("button", {
   borderRadius: "$1",
   textTransform: "uppercase",
   fontFamily: "$default",
-  fontSize: "0.9375rem", //"15px"
-  lineHeight: "1.5rem", //"24px"
-  letterSpacing: "-0.0075em", // "-0.12px"
+  fontSize: "0.9375rem",
+  lineHeight: "1.5rem",
+  letterSpacing: "-0.0075em",
   fontWeight: 600,
   cursor: "pointer",
   "&:disabled": {
@@ -72,10 +72,10 @@ const Button = styled("button", {
       oddSelected: {
         backgroundColor: "$blue600",
         "@hover": {
-          "&:hover": { backgroundColor: "$blue300" },
+          "&:hover": { backgroundColor: "$blue500" },
         },
         "@focus": {
-          "&:focus": { boxShadow: "0 0 0 2px $blue300" },
+          "&:focus": { boxShadow: "0 0 0 2px $blue400" },
         }
       },
     },

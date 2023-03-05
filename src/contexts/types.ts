@@ -59,7 +59,8 @@ export interface BetslipContextType extends IBetslipContextState {
 }
 
 export type BetslipProviderType = {
-    children: ReactNode
+    children: ReactNode,
+    value?: IBetslipContextState
 }
 
 export type ReducerType = (state: IBetslipContextState, action: AddEventToBetslipAction | AddEventToBetslipFailedAction | CleanBetslipFailedAction | PlayBetslipFetchAction | PlayBetslipFailedAction | RemoveItemFromBetslipType) => IBetslipContextState

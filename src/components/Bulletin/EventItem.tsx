@@ -19,36 +19,45 @@ const EventItem: FC<EventItemPropsType> = ({ eventItem }) => {
     const { eventName, matchResultOdds, mbc } = eventItem
     const { addEventToBetslip, removeEventFromBetslip, selectedEvents } = useBetslip()
 
-    const [selectedBetName, setSelectedBetName] = useState<string>("")
+    const [selectedOddName, setSelectedBetName] = useState<string>("")
 
     const addToBetslip: AddToBetslipType = (oddName, outCome, isAlreadySelected) => {
         const createdCouponItem: CouponItemType = { eventName, oddName, outCome, mbc }
 
-        if(isAlreadySelected) {
+        if (isAlreadySelected) {
             removeEventFromBetslip(createdCouponItem)
         } else {
             addEventToBetslip(createdCouponItem)
         }
     }
-    
+
     useEffect(() => {
         setSelectedBetName(selectedEvents[eventItem.eventName]?.oddName || "")
     }, [selectedEvents, eventItem])
-    
+
     return (
-        <Box css={{ display: "flex", fd: "row", ai: "center", width: "100%", pb: "10px" }}>
+        <Box
+            css={{
+                display: "flex", fd: "row", ai: "center", width: "100%", py: "5px",
+                "&:nth-of-type(even)": { backgroundColor: "#eaeaea" },
+                "&:hover": { backgroundColor: "#cecccc" }
+            }}
+        >
             <Text css={{ fg: 0, fs: 0, fb: "10%", maxWidth: 100, ta: "center" }}>{mbc}</Text>
             <Text css={{ fg: 0, fs: 0, fb: "25%", }}>{eventName}</Text>
             <Box css={{ display: "flex", fd: "row", ai: "center", flex: "1", jc: "space-around", width: 200 }}>
                 {
                     map(Object.entries(matchResultOdds), ([key, { name, outCome }]) => {
+                        const isOddSelected = selectedOddName === name
+
                         return (
-                            <Button 
-                                variant={selectedBetName === name ? "oddSelected" : "odd"}
+                            <Button
+                                variant={isOddSelected ? "oddSelected" : "odd"}
                                 key={key}
-                                onClick={() => addToBetslip(name, outCome, selectedBetName === name)}
+                                onClick={() => addToBetslip(name, outCome, isOddSelected)}
                                 css={{ width: 100 }}
                                 size="mini"
+                                role={`event-odd-${key}`}
                             >
                                 {outCome}
                             </Button>
