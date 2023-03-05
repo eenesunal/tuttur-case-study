@@ -8,7 +8,7 @@ import Text from "components/Text"
 
 import useBetslip from "hooks/useBetslip"
 import { playBetslip } from "api"
-import { calculateTotalOutCome, calculatePossibleWinAmount } from "./helpers"
+import { calculateTotalOutCome, calculatePossibleWinAmount } from "components/Bulletin/helpers"
 
 const Betslip: FC = () => {
     const [multiplier, setMultiplier] = useState<number>(5)
@@ -66,9 +66,9 @@ const Betslip: FC = () => {
                     <option value={20}>20</option>
                 </select>
                 <Text weight="bold" css={{ pt: 5 }}>Total Outcome: </Text>
-                <Text>${totalOutCome.toFixed(2)}</Text>
+                <Text role="total-outcome">${totalOutCome.toFixed(2)}</Text>
                 <Text weight="bold" css={{ pt: 5 }}>Possible Win Amount: </Text>
-                <Text>${possibleWinAmount.toFixed(2)}</Text>
+                <Text role="possible-win-amount">${possibleWinAmount.toFixed(2)}</Text>
             </Box>
 
             <Box css={{ height: 1, borderBottom: "1px solid #cdcdcd", my: 10 }} />

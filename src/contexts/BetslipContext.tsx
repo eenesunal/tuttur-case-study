@@ -1,41 +1,17 @@
 import { createContext, FC, useReducer } from "react"
 import { find, filter, map } from "lodash"
 
+import { removeItemFromObject, getIsPlayable } from "./helpers"
+
 import {
     AddEventToBetslipType,
     BetslipContextType,
     BetslipProviderType,
     CleanBetslipType,
-    CouponItemType,
     IBetslipContextState,
     ReducerType,
     RemoveEventFromBetslipType,
-    SelectedEventsType
 } from "./types"
-
-const removeItemFromObject = (object: object, field: string | undefined) => {
-    const newObject: SelectedEventsType = { ...object }
-
-    if (field) {
-        delete newObject[field]
-    }
-
-    return newObject
-}
-
-const getIsPlayable = (coupon: CouponItemType[], newCouponItem: CouponItemType, isRemove: boolean) => {
-    let newCoupon: CouponItemType[]
-    if(isRemove) {
-        newCoupon = filter(coupon, (couponItem) => couponItem?.eventName !== newCouponItem?.eventName)
-    } else {
-        newCoupon = find(coupon, ["eventName", newCouponItem?.eventName]) ?
-        map(coupon, (couponItem) => couponItem?.eventName === newCouponItem?.eventName ? newCouponItem : couponItem) :
-        [...coupon, newCouponItem]
-    }
-    
-    const highestMBC = newCoupon.length > 0 ? Math.max(...map(newCoupon, c => c?.mbc ? c?.mbc : 0)) : newCouponItem?.mbc
-    return highestMBC ? newCoupon.length >= highestMBC : false
-}
 
 const initialState: IBetslipContextState = {
     coupon: [],
@@ -82,8 +58,8 @@ const BetslipContext = createContext<BetslipContextType>({
     removeEventFromBetslip: () => { },
 })
 
-const BetslipProvider: FC<BetslipProviderType> = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, initialState)
+const BetslipProvider: FC<BetslipProviderType> = ({ children, value }) => {
+    const [state, dispatch] = useReducer(reducer, {...initialState, ...value})
 
     const addEventToBetslip: AddEventToBetslipType = (couponItem) => {
         try {
