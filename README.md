@@ -1,5 +1,7 @@
 # Tuttur: Case Study
 
+## <b>Live Demo:</b> https://tuttur-case-study.vercel.app/bulletin/events
+
 <b>Tech Stack:</b> React.js, TypeScript\
 <b>Routing:</b> React Router DOM\
 <b>Test:</b> Jest, React Testing Library\
