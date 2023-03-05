@@ -1,13 +1,29 @@
-import { FC } from "react"
+import { ChangeEvent, FC, useState } from "react"
 import { Outlet } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 
-import Text from "components/Text"
 import Box from "components/Box"
 
 const BulletinLayout: FC = () => {
+    const { i18n } = useTranslation()
+    const [language, setLanguage] = useState("en")
+
+    const onLanguageSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+        i18n.changeLanguage(e.target.value)
+        setLanguage(e.target.value)
+    }
+
     return (
         <Box css={{ display: "flex", fd: "column", width: "100vw", p: 20 }}>
-            <Text variant="title1">Bulletin</Text>
+            <header>
+                <select
+                    value={language}
+                    onChange={onLanguageSelect}
+                >
+                    <option value="tr">Türkçe</option>
+                    <option value="en">English</option>
+                </select>
+            </header>
             <Outlet />
         </Box>
     )

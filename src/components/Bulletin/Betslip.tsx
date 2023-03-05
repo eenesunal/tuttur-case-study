@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useMemo, useState } from "react"
 import { map } from "lodash"
+import { useTranslation } from "react-i18next"
 
 import BetslipCouponItem from "./BetslipCouponItem"
 import Box from "components/Box"
@@ -11,6 +12,8 @@ import { playBetslip } from "api"
 import { calculateTotalOutCome, calculatePossibleWinAmount } from "components/Bulletin/helpers"
 
 const Betslip: FC = () => {
+    const { t: translate } = useTranslation()
+    
     const [multiplier, setMultiplier] = useState<number>(5)
     const [playBetslipState, setPlayBetslipState] = useState({ error: null, loading: false })
     const { loading, error } = playBetslipState
@@ -41,21 +44,21 @@ const Betslip: FC = () => {
 
     return (
         <Box css={{ width: "30%", height: "90vh", borderLeft: "1px solid #cdcdcd", p: 15 }}>
-            <Text variant="title2">Betslip</Text>
+            <Text variant="title2">{translate("events.betslip.title")}</Text>
             <Box>
                 {
                     coupon.length > 0 ?
                         map(coupon, (couponItem) => (
                             <BetslipCouponItem key={couponItem?.eventName} couponItem={couponItem} />
                         )) :
-                        <Text>Add items to coupon</Text>
+                        <Text>{translate("events.betslip.addItemsToCoupon")}</Text>
                 }
             </Box>
 
             <Box css={{ height: 1, borderBottom: "1px solid #cdcdcd", my: 10 }} />
 
             <Box role="multiplier-box" css={{ display: "flex", fd: "column" }}>
-                <Text css={{ mr: 5 }}>Multiplier: </Text>
+                <Text css={{ mr: 5 }}>{translate("events.betslip.multiplier")}: </Text>
                 <select
                     onChange={onMultiplierChange}
                     value={multiplier}
@@ -65,9 +68,9 @@ const Betslip: FC = () => {
                     <option value={15}>15</option>
                     <option value={20}>20</option>
                 </select>
-                <Text weight="bold" css={{ pt: 5 }}>Total Outcome: </Text>
+                <Text weight="bold" css={{ pt: 5 }}>{translate("events.betslip.totalOutCome")}: </Text>
                 <Text role="total-outcome">${totalOutCome.toFixed(2)}</Text>
-                <Text weight="bold" css={{ pt: 5 }}>Possible Win Amount: </Text>
+                <Text weight="bold" css={{ pt: 5 }}>{translate("events.betslip.possibleWinAmount")}: </Text>
                 <Text role="possible-win-amount">${possibleWinAmount.toFixed(2)}</Text>
             </Box>
 
@@ -79,19 +82,19 @@ const Betslip: FC = () => {
                     disabled={loading}
                     onClick={cleanBetslip}
                 >
-                    CLEAN
+                    {translate("events.betslip.clean")}
                 </Button>
                 <Button
                     variant="success"
                     disabled={loading || !isBetslipPlayable}
                     onClick={onPlayClick}
                 >
-                    PLAY NOW
+                    {translate("events.betslip.playNow")}
                 </Button>
             </Box>
             {
                 error ?
-                    <Text css={{ color: "$red600" }}>An error occured while playing coupon.</Text> :
+                    <Text css={{ color: "$red600" }}>{error}</Text> :
                     <></>
             }
         </Box>

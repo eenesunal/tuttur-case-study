@@ -39,8 +39,8 @@ const EventItem: FC<EventItemPropsType> = ({ eventItem }) => {
         <Box
             css={{
                 display: "flex", fd: "row", ai: "center", width: "100%", py: "5px",
-                "&:nth-of-type(even)": { backgroundColor: "#eaeaea" },
-                "&:hover": { backgroundColor: "#cecccc" }
+                "&:nth-of-type(even)": { backgroundColor: "$gray100" },
+                "&:hover": { backgroundColor: "$gray300" }
             }}
         >
             <Text css={{ fg: 0, fs: 0, fb: "10%", maxWidth: 100, ta: "center" }}>{mbc}</Text>
