@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next"
 import Box from "components/Box"
 
 const BulletinLayout: FC = () => {
-    const { i18n } = useTranslation("en")
+    const { i18n } = useTranslation()
     const [language, setLanguage] = useState("en")
 
     const onLanguageSelect = (e: ChangeEvent<HTMLSelectElement>) => {

@@ -18,7 +18,7 @@ const INITIAL_STATE: InitialStateType = {
 }
 
 const Events: FC = () => {
-    const { t: translate } = useTranslation("en")
+    const { t: translate } = useTranslation()
 
     const [state, setState] = useState(INITIAL_STATE)
     const { data, error, loading } = state

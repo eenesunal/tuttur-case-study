@@ -13,7 +13,7 @@ type EventsHeaderPropsType = {
     events: EventType[]
 }
 const EventsHeader: FC<EventsHeaderPropsType> = ({ events }) => {
-    const { t: translate } = useTranslation("en")
+    const { t: translate } = useTranslation()
 
     const [names, setNames] = useState<string[]>([])
 

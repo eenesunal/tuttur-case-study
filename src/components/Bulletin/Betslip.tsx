@@ -12,7 +12,7 @@ import { playBetslip } from "api"
 import { calculateTotalOutCome, calculatePossibleWinAmount } from "components/Bulletin/helpers"
 
 const Betslip: FC = () => {
-    const { t: translate } = useTranslation("en")
+    const { t: translate } = useTranslation()
     
     const [multiplier, setMultiplier] = useState<number>(5)
     const [playBetslipState, setPlayBetslipState] = useState({ error: null, loading: false })
