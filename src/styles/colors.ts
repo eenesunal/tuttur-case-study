@@ -9,7 +9,7 @@ export const gray = {
   gray700: "#626686",
   gray800: "#4B5074",
   gray900: "#292E49",
-};
+}
 
 export const primary = {
   primary100: "#DBDFFD",
@@ -21,7 +21,7 @@ export const primary = {
   primary700: "#242FA8",
   primary800: "#171E87",
   primary900: "#0E1370",
-};
+}
 
 export const green = {
   green100: "#D1FCD3",
@@ -33,7 +33,7 @@ export const green = {
   green700: "#0E8D62",
   green800: "#097159",
   green900: "#055E52",
-};
+}
 
 export const blue = {
   blue100: "#D6FEFC",
@@ -45,7 +45,7 @@ export const blue = {
   blue700: "#1B72AA",
   blue800: "#115189",
   blue900: "#0A3A71",
-};
+}
 
 export const yellow = {
   yellow100: "#FFF5DZ",
@@ -57,7 +57,7 @@ export const yellow = {
   yellow700: "#B7691C",
   yellow800: "#934D11",
   yellow900: "#7A380A",
-};
+}
 
 export const red = {
   red100: "#FFECDA",
@@ -69,4 +69,4 @@ export const red = {
   red700: "#B72B23",
   red800: "#931619",
   red900: "#7A0D18",
-};
+}

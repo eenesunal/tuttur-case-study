@@ -1,24 +1,21 @@
 import { ChangeEvent, FC, useMemo, useState } from "react"
-import { map, reduce } from "lodash"
+import { map } from "lodash"
 
-import Text from "components/Text"
+import BetslipCouponItem from "./BetslipCouponItem"
+import Box from "components/Box"
 import Button from "components/Button"
+import Text from "components/Text"
 
 import useBetslip from "hooks/useBetslip"
 import { playBetslip } from "api"
-
-import { CouponItemType } from "contexts/types"
-import Box from "components/Box"
-
-const calculateTotalOutCome = (coupon: CouponItemType[]) => reduce(map(coupon, (c) => c?.outCome ? Number(c?.outCome) : 0), ((prev, next) => prev + next), 0)
-const calculatePossibleWinAmount = (coupon: CouponItemType[], multiplier: number) => multiplier * calculateTotalOutCome(coupon)
+import { calculateTotalOutCome, calculatePossibleWinAmount } from "./helpers"
 
 const Betslip: FC = () => {
     const [multiplier, setMultiplier] = useState<number>(5)
     const [playBetslipState, setPlayBetslipState] = useState({ error: null, loading: false })
     const { loading, error } = playBetslipState
 
-    const { coupon, isBetslipPlayable, cleanBetslip, removeEventFromBetslip } = useBetslip()
+    const { coupon, isBetslipPlayable, cleanBetslip } = useBetslip()
 
     const totalOutCome = useMemo(() => calculateTotalOutCome(coupon), [coupon])
     const possibleWinAmount = useMemo(() => calculatePossibleWinAmount(coupon, multiplier), [coupon, multiplier])
@@ -49,13 +46,7 @@ const Betslip: FC = () => {
                 {
                     coupon.length > 0 ?
                         map(coupon, (couponItem) => (
-                            <Box key={couponItem?.eventName} css={{ mb: 5, p: 5, display: "flex" }}>
-                                <Text css={{ text: "sm", mr: 5 }}>{couponItem?.mbc}</Text>
-                                <Text css={{ text: "sm" }}>{couponItem?.eventName}</Text>
-                                <Text css={{ text: "sm" }}>{couponItem?.oddName}</Text>
-                                <Text css={{ text: "sm" }}>{couponItem?.outCome}</Text>
-                                <Button variant="remove" size="mini" css={{ ml: "auto" }} onClick={() => removeEventFromBetslip(couponItem)}>X</Button>
-                            </Box>
+                            <BetslipCouponItem key={couponItem?.eventName} couponItem={couponItem} />
                         )) :
                         <Text>Add items to coupon</Text>
                 }
@@ -63,7 +54,7 @@ const Betslip: FC = () => {
 
             <Box css={{ height: 1, borderBottom: "1px solid #cdcdcd", my: 10 }} />
 
-            <Box css={{ display: "flex", fd: "column" }}>
+            <Box role="multiplier-box" css={{ display: "flex", fd: "column" }}>
                 <Text css={{ mr: 5 }}>Multiplier: </Text>
                 <select
                     onChange={onMultiplierChange}
