@@ -4,7 +4,7 @@ import "@testing-library/jest-dom"
 import EventsHeader from "components/Bulletin/EventsHeader"
 import { EventType } from "components/Bulletin/types"
 
-test("loads and displays Event Item with data", () => {
+test("loads and displays Events Header with data", () => {
     const events: EventType[] = [{
         "eventName": "Arsenal - Liverpool",
         "matchResultOdds": {
@@ -32,8 +32,11 @@ test("loads and displays Event Item with data", () => {
         "mbc": 3
     }]
 
-    render(<EventsHeader events={events} />)
-
+    const { rerender } = render(<EventsHeader events={events} />)
+    
     expect(screen.getByText(/o 2.5/i)).toBeInTheDocument()
     expect(screen.getByText(/mr: draw/i)).toBeInTheDocument()
+
+    rerender(<EventsHeader events={[]} />)
+    expect(screen.queryByText(/o 2.5/i)).not.toBeInTheDocument()
 })
