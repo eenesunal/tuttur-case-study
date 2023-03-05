@@ -1,11 +1,11 @@
 # Tuttur: Case Study
 
-Tech Stack: React.js, TypeScript
-Routing: React Router DOM
-Test: Jest, React Testing Library
-API Calls: Axios, Axios Mock Adapter
-Utils: Lodash
-Styles: stitches
+<b>Tech Stack:</b> React.js, TypeScript\
+<b>Routing:</b> React Router DOM\
+<b>Test:</b> Jest, React Testing Library\
+<b>API Calls:</b> Axios, Axios Mock Adapter\
+<b>Utils:</b> Lodash\
+<b>Styles:</b> stitches
 
 ## Available Scripts
 
