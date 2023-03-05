@@ -31,7 +31,7 @@ const Betslip: FC = () => {
         setPlayBetslipState({ loading: true, error: null })
         playBetslip(coupon)
             .then(() => {
-                alert(`Played Betslip with Multiplier: ${multiplier}, Total Outcome: $${totalOutCome}, Possible Win Amount: $${possibleWinAmount.toFixed(2)}`)
+                alert(translate("events.betslip.betslipPlayed", { multiplier, totalOutCome, possibleWinAmount }))
                 setPlayBetslipState({ loading: false, error: null })
                 cleanBetslip()
                 setMultiplier(5)

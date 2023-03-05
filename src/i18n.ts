@@ -39,7 +39,8 @@ i18n
                             possibleWinAmount: "Possible Win Amount",
                             clean: "Clean",
                             playNow: "Play Now",
-                        }
+                            betslipPlayed: "Played betslip with Multiplier: {{multiplier}}, Total Outcome: {{totalOutCome}}, Possible Win Amount: {{possibleWinAmount}}."
+                        },
                     }
                 }
             },
@@ -70,6 +71,7 @@ i18n
                             possibleWinAmount: "Maks. Kazanç",
                             clean: "Temizle",
                             playNow: "Hemen Oyna",
+                            betslipPlayed: "{{multiplier}} misli, {{totalOutCome}}$ değerinde, {{possibleWinAmount}} maks. kazanç tutarında kupon oynandı."
                         }
                     }
                 }
