@@ -13,8 +13,12 @@ const EventsHeader: FC<EventsHeaderPropsType> = ({ events }) => {
     const [names, setNames] = useState<string[]>([])
 
     useEffect(() => {
-        const eventNames = map(Object.entries(events[1].matchResultOdds), ([key, { name }]) => name)
-        setNames(eventNames)
+        if(events?.length > 0) {
+            const eventNames = map(Object.entries(events[0].matchResultOdds), ([key, { name }]) => name)
+            setNames(eventNames)
+        } else {
+            setNames([])
+        }
 
     }, [events])
 
