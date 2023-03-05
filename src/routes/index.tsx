@@ -2,7 +2,7 @@ import { Navigate, useRoutes } from "react-router-dom"
 
 import BulletinLayout from "../layouts/BulletinLayout"
 import Bulletin from "../pages/Bulletin"
-import Text from "components/Text"
+import PageNotFound from "components/PageNotFound"
 
 export default function Router() {
   const routes = useRoutes([
@@ -12,19 +12,18 @@ export default function Router() {
     },
     {
       path: "/bulletin",
-      element: (
-        <BulletinLayout />
-      ),
+      element: <BulletinLayout />,
       children: [
         { element: <Navigate to="/bulletin/events" />, index: true },
         { path: "events", element: <Bulletin /> },
+        { path: "*", element: <Navigate to="/404" replace /> },
       ],
     },
     {
-      element: <div></div>,
+      element: <PageNotFound />,
       children: [
-        { path: "404", element: <Text variant="largeTitle" css={{ color: "$red600" }}>404 not found.</Text> },
-        { path: "*", element: <Navigate to="/404" /> },
+        { path: "404", element: <PageNotFound /> },
+        { path: "*", element: <Navigate to="/404" replace /> },
       ],
     },
     {
