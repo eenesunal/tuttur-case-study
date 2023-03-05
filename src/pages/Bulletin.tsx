@@ -4,7 +4,7 @@ import Betslip from "components/Bulletin/Betslip"
 import { Page, Events } from "components"
 
 const Bulletin = () => {
-    const { t: translate } = useTranslation()
+    const { t: translate } = useTranslation("en")
 
     return (
         <Page 

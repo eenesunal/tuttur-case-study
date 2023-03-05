@@ -18,7 +18,7 @@ const INITIAL_STATE: InitialStateType = {
 }
 
 const Events: FC = () => {
-    const { t: translate } = useTranslation()
+    const { t: translate } = useTranslation("en")
 
     const [state, setState] = useState(INITIAL_STATE)
     const { data, error, loading } = state
@@ -33,7 +33,7 @@ const Events: FC = () => {
             })
     }, [])
 
-    if(loading) return <Text variant="body">{translate("common.loading")}</Text>
+    if(loading) return <Text role="loading-spinner" variant="body">{translate("common.loading")}</Text>
     if(error) return <Text variant="body" css={{ color: "$red600" }}>{error}</Text>
     return (
         <Box css={{ display: "flex", flex: 1, fd: "column", p: 15 }}>

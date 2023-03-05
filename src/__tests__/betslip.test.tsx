@@ -22,19 +22,15 @@ describe("betslip", () => {
             </BetslipProvider>
         )
 
-        expect(screen.getByText(/add items to coupon/i)).toBeInTheDocument()
+        expect(screen.getByRole("no-items-text")).toBeInTheDocument()
 
-        const multiplierBox = expect(screen.getByRole(/multiplier-box/i))
-        multiplierBox.toHaveTextContent(/multiplier: /i)
-        multiplierBox.toHaveTextContent(/5/i)
+        expect(screen.getByRole(/multiplier-box/i)).toBeInTheDocument()
+        expect(screen.getByRole(/total-outcome/i)).toHaveTextContent("$0.00")
+        expect(screen.getByRole(/possible-win-amount/i)).toHaveTextContent("$0.00")
+        
+        expect(screen.getByRole("clean-betslip")).toBeInTheDocument()
 
-        multiplierBox.toHaveTextContent(/total outcome: /i)
-        multiplierBox.toHaveTextContent(/possible win amount: /i)
-        multiplierBox.toHaveTextContent(/0/)
-
-        expect(screen.getByText(/clean/i)).toBeInTheDocument()
-
-        const playButton = screen.getByText(/play now/i)
+        const playButton = screen.getByRole("play-betslip")
         expect(playButton).toBeDisabled()
     })
 
@@ -75,15 +71,14 @@ describe("betslip", () => {
 
         expect(screen.getByText(/beşiktaş jk - borussia dortmund/i)).toBeInTheDocument()
 
-        const multiplierBox = expect(screen.getByRole(/multiplier-box/i))
-        multiplierBox.toHaveTextContent(/multiplier: /i)
+        expect(screen.getByRole(/multiplier-box/i)).toBeInTheDocument()
 
         expect(screen.getByRole("total-outcome")).toHaveTextContent("$5.05")
         expect(screen.getByRole("possible-win-amount")).toHaveTextContent("$25.25")
 
-        expect(screen.getByText(/clean/i)).toBeInTheDocument()
+        expect(screen.getByRole("clean-betslip")).toBeInTheDocument()
 
-        const playButton = screen.getByText(/play now/i)
+        const playButton = screen.getByRole("play-betslip")
         expect(playButton).toBeEnabled()
     })
     
@@ -124,7 +119,7 @@ describe("betslip", () => {
             </BetslipProvider>
         )
 
-        const playButton = screen.getByText(/play now/i)
+        const playButton = screen.getByRole("play-betslip")
         expect(playButton).toBeEnabled()
         fireEvent.click(playButton)
         
@@ -134,6 +129,6 @@ describe("betslip", () => {
             </BetslipProvider>
         )
 
-        expect(screen.getByText(/play now/i)).toBeDisabled()
+        expect(screen.getByRole("play-betslip")).toBeDisabled()
     })
 })

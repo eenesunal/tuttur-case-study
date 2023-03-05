@@ -12,7 +12,7 @@ import { playBetslip } from "api"
 import { calculateTotalOutCome, calculatePossibleWinAmount } from "components/Bulletin/helpers"
 
 const Betslip: FC = () => {
-    const { t: translate } = useTranslation()
+    const { t: translate } = useTranslation("en")
     
     const [multiplier, setMultiplier] = useState<number>(5)
     const [playBetslipState, setPlayBetslipState] = useState({ error: null, loading: false })
@@ -51,7 +51,7 @@ const Betslip: FC = () => {
                         map(coupon, (couponItem) => (
                             <BetslipCouponItem key={couponItem?.eventName} couponItem={couponItem} />
                         )) :
-                        <Text>{translate("events.betslip.addItemsToCoupon")}</Text>
+                        <Text role="no-items-text">{translate("events.betslip.addItemsToCoupon")}</Text>
                 }
             </Box>
 
@@ -81,6 +81,7 @@ const Betslip: FC = () => {
                     variant="remove"
                     disabled={loading}
                     onClick={cleanBetslip}
+                    role="clean-betslip"
                 >
                     {translate("events.betslip.clean")}
                 </Button>
@@ -88,6 +89,7 @@ const Betslip: FC = () => {
                     variant="success"
                     disabled={loading || !isBetslipPlayable}
                     onClick={onPlayClick}
+                    role="play-betslip"
                 >
                     {translate("events.betslip.playNow")}
                 </Button>

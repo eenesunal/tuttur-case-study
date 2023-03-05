@@ -13,7 +13,7 @@ type EventsHeaderPropsType = {
     events: EventType[]
 }
 const EventsHeader: FC<EventsHeaderPropsType> = ({ events }) => {
-    const { t: translate } = useTranslation()
+    const { t: translate } = useTranslation("en")
 
     const [names, setNames] = useState<string[]>([])
 
@@ -29,13 +29,18 @@ const EventsHeader: FC<EventsHeaderPropsType> = ({ events }) => {
 
     return (
         <Box css={{ display: "flex", fd: "row", ai: "center", width: "100%", pb: "10px" }}>
-            <Box css={{ flex: "0 0 10%", maxWidth: 100, ta: "center" }}><Text weight="semibold">{translate("events.mbd")}</Text></Box>
-            <Box css={{ flex: "0 0 25%" }}><Text weight="semibold">{translate("events.event")}</Text></Box>
+            <Box css={{ flex: "0 0 10%", maxWidth: 100, ta: "center" }}>
+                <Text role="mbc-header" weight="semibold">{translate("events.mbd")}</Text>
+            </Box>
+            <Box css={{ flex: "0 0 25%" }}>
+                <Text role="event-name-header" weight="semibold">{translate("events.event")}</Text>
+            </Box>
             <Box css={{ display: "flex", fd: "row", ai: "center", flex: "1", justifyContent: "space-around", width: 200 }}>
                 {
                     names?.length > 0 ?
                         map(names, (name =>
                             <Text
+                                role={`odd-${convertToTranslationKey(name)}-header`}
                                 weight="semibold"
                                 css={{
                                     width: "100%",

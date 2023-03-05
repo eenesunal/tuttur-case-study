@@ -34,9 +34,10 @@ test("loads and displays Events Header with data", () => {
 
     const { rerender } = render(<EventsHeader events={events} />)
     
-    expect(screen.getByText(/o 2.5/i)).toBeInTheDocument()
-    expect(screen.getByText(/mr: draw/i)).toBeInTheDocument()
+    expect(screen.getByRole("mbc-header")).toBeInTheDocument()
+    expect(screen.getByRole("event-name-header")).toBeInTheDocument()
+    expect(screen.getByRole("odd-Over2.5-header")).toBeInTheDocument()
 
     rerender(<EventsHeader events={[]} />)
-    expect(screen.queryByText(/o 2.5/i)).not.toBeInTheDocument()
+    expect(screen.queryByRole("odd-Over2.5-header")).not.toBeInTheDocument()
 })

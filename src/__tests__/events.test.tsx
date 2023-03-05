@@ -42,7 +42,7 @@ describe("events", () => {
     test("if loads and displays Events with data", async () => {
         render(<Events />)
 
-        expect(screen.getByText(/loading . . ./i)).toBeInTheDocument()
+        expect(screen.getByRole("loading-spinner")).toBeInTheDocument()
         expect(await screen.findByText(/arsenal - liverpool/i)).toBeInTheDocument()
     })
 })
